@@ -78,7 +78,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>19218511-4</td>
+                                                <td><a role="button" data-bs-toggle="modal" data-bs-target="#exampleModal">1111111-1</a></td>
                                                 <td>Mi Nombre</td>
                                                 <td>133</td>
                                                 <td>pablito saco un clavito</td>
@@ -111,6 +111,45 @@
             </div>
         </div>
     </div>
+    <!-----Modal---->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: rgb(78, 170, 167);">
+              <h5 class="modal-title" id="exampleModalLabel" style="color:white;">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="form-group row ">
+                        <div class="row align-items-start">
+                            <div class="col-sm-4">
+                                <label  class="form-label fw-bold">Fecha</label>
+                                <input class="form-control" type="date" name="fecha" value=""  />
+                            </div>
+                            <div class="col-sm-4">
+                                <label  class="form-label fw-bold">Hora</label>
+                                <input class="form-control" type="time" name="hora" value=""  />
+                            </div>
+                            <div class="col-sm-4">
+                                <label  class="form-label fw-bold">Med. Tratante</label>
+                                <input class="form-control" type="text" name="medico" value=""  />
+                            </div>
+                            <div class="col-sm-15 mt-3">
+                                <label  class="form-label fw-bold">Comentario</label>
+                                <textarea class="form-control" type="text" name="comentario" value=""></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="background-color: rgb(78, 170, 167);">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Enviar</button>
+            </div>
+          </div>
+        </div>
+      </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
