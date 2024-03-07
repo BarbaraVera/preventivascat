@@ -63,6 +63,7 @@ function mostrarMensajeExito(mensaje) {
         </div>
     `;
     alertContainer.innerHTML = alertHTML;
+    document.getElementById("enviar").disabled = true;
 }
 
 function mostrarMensajeError(mensaje) {
