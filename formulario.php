@@ -34,7 +34,7 @@ if ($response["authenticated"]) {
                 $telefono = $fila["telefono"];
                 $preventiva = $fila["preventiva"];
 
-                $sql = "INSERT INTO solicitudes (rut, nombre_solicitante, usuario, fecha_ingreso,telefono) VALUES (?, ?, ?, ?,?)";
+                $sql = "INSERT INTO solicitudes (rut, nombre_solicitante, usuario_id, fecha_ingreso,telefono) VALUES (?, ?, ?, ?,?)";
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(1, $rut, PDO::PARAM_STR);
                 $stmt->bindParam(2, $nombre, PDO::PARAM_STR);
