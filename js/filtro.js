@@ -5,40 +5,27 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function mostrarEntradas() {
-    var opcionSeleccionada = document.getElementById("busqueda").value;
+    var opcionSeleccionada = document.getElementById("tipo").value;
 
     ocultarEntradas();
 
     // Mostrar el campo de entrada según la opción seleccionada
     if (opcionSeleccionada === "codigo1") {
-        document.getElementById("busquedaRut").closest('div').style.display = 'block';
-        document.getElementById("botonbusqueda").closest('div').style.display = 'block';
+        document.getElementById("paquete").closest('div').style.display = 'block';
     } else if (opcionSeleccionada === "codigo2") {
-        document.getElementById("busquedaPreventivo").closest('div').style.display = 'block';
-        document.getElementById("botonbusqueda").closest('div').style.display = 'block';
+        document.getElementById("paquete").closest('div').style.display = 'none';
     } else if (opcionSeleccionada === "codigo3") {
-        document.getElementById("busquedaEmpresa").closest('div').style.display = 'block';
-        document.getElementById("botonbusqueda").closest('div').style.display = 'block';
-    } else if (opcionSeleccionada === "codigo4") {
-        document.getElementById("busquedafecha1").closest('div').style.display = 'block';
-        document.getElementById("busquedafecha2").closest('div').style.display = 'block';
-        document.getElementById("botonbusqueda").closest('div').style.display = 'block';
+        document.getElementById("paquete").closest('div').style.display = 'none';
     } else {
         // Mostrar el campo de entrada por defecto (busquedaCodigo)
-        document.getElementById("busquedaRutDiv").style.display = 'block';
-        document.getElementById("botonbusqueda").closest('div').style.display = 'block';
+        document.getElementById("selectPaquete").style.display = 'block';
     }
 }
 
 // Función para ocultar todas las entradas
 function ocultarEntradas() {
     // Ocultar todos los campos de entrada
-    document.getElementById("busquedaRut").closest('div').style.display = 'none';
-    document.getElementById("busquedaPreventivo").closest('div').style.display = 'none';
-    document.getElementById("busquedaEmpresa").closest('div').style.display = 'none';
-    document.getElementById("busquedafecha1").closest('div').style.display = 'none';
-    document.getElementById("busquedafecha2").closest('div').style.display = 'none';
-    document.getElementById("botonbusqueda").closest('div').style.display = 'none';
+    document.getElementById("paquete").closest('div').style.display = 'none';
     // Ocultar el campo de entrada por defecto
-    document.getElementById("busquedaRutDiv").style.display = 'none';
+    document.getElementById("selectPaquete").style.display = 'none';
 }
