@@ -12,7 +12,9 @@ document.getElementById("idForm").addEventListener("submit", function(event) {
         filaDatos.rut = celdas[0].textContent;
         filaDatos.nombre = celdas[1].textContent;
         filaDatos.telefono = celdas[2].textContent;
-        filaDatos.preventiva = celdas[3].textContent;
+        filaDatos.tipo = celdas[3].textContent;
+        filaDatos.paquete = celdas[4].textContent;
+        filaDatos.comentario = celdas[5].textContent;
 
         datos.push(filaDatos);
     }
@@ -39,7 +41,9 @@ document.getElementById("idForm").addEventListener("submit", function(event) {
             document.getElementById("rut_paciente").value = "";
             document.getElementById("nombre_paciente").value = "";
             document.getElementById("telefono_paciente").value = "";
-            document.getElementById("preventiva_paciente").value = "";
+            document.getElementById("paquete").value = "";
+            document.getElementById("tipo").value = "";
+            document.getElementById("comentario").value = "";
             tabla.innerHTML = ""; 
             
         } else {
@@ -64,6 +68,7 @@ function mostrarMensajeExito(mensaje) {
     `;
     alertContainer.innerHTML = alertHTML;
     document.getElementById("enviar").disabled = true;
+    document.getElementById("borrar").disabled = true;
 }
 
 function mostrarMensajeError(mensaje) {

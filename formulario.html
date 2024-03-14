@@ -49,15 +49,34 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <label  class="form-label fw-bold" style="color:white;">Telefono</label>
-                                        <input class="form-control" type="text" id="telefono_paciente" name="telefono_paciente" value=""  />
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1">+569</span>
+                                            <input type="text" class="form-control" id="telefono_paciente" name="telefono_paciente" aria-label="telefono_paciente" aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-sm-4 mt-3">
+                                        <label  class="form-label fw-bold" style="color:white;">Tipo</label>
+                                        <select class="form-control border border-2" id="tipo" name="tipo" onchange="mostrarEntradas()">
+                                            <option value="">Selecciona el tipo de atención</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4 mt-3" style="display: none;" id="selectPaquete">
+                                        <label  class="form-label fw-bold" style="color:white;">Paquete</label>
+                                        <select class="form-control border border-2 " id="paquete" name="paquete">
+                                            <option value="" selected>Seleccione paquete</option>
+                                        </select>
                                     </div>
                                     <div class="col-sm-4 mt-3">
-                                        <label  class="form-label fw-bold" style="color:white;">Preventiva</label>
-                                        <input class="form-control" type="text" id="preventiva_paciente" name="preventiva_paciente" value=""  />
+                                        <label  class="form-label fw-bold" style="color:white;">Comentario</label>
+                                        <textarea class="form-control" type="text" name="comentario" id="comentario"></textarea>
                                     </div>
-                                    <div class="col-sm-8 mt-5" style="padding-left: 50%;">
-                                        <button class="btn btn-primary" id="agregar" type="button" disabled >Agregar a la tabla</button>
+                                    <div class="col-sm-15 mt-4" style="padding-left: 80%;">
+                                        <button class="btn btn-primary" type="button" id="agregar" >Agregar a la tabla</button>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +90,9 @@
                                                     <th>Rut</th>
                                                     <th>Nombre</th>
                                                     <th>Telefono</th>
-                                                    <th>Preventiva</th>
+                                                    <th>Tipo</th>
+                                                    <th>Paquete</th>
+                                                    <th>Comentario</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tablaBody">
@@ -79,9 +100,13 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div style="padding-left: 80%;">
-                                        <button class="btn btn-primary" id="enviar" type="submit" disabled>Enviar Solicitud</button>
+                                    <div class="col-sm-15 mt-4">
+                                        <div class="d-flex justify-content-between">
+                                            <button style="margin-left: 25px;" id="borrar" type="button" class="btn btn-danger" disabled>Borrar Última Fila</button>
+                                            <button class="btn btn-primary" id="enviar" type="submit" disabled>Enviar Solicitud</button>
+                                        </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -99,5 +124,6 @@ integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIe
 <script src="js/envio_formulario.js"></script>
 <script src="js/validador_rut.js"></script>
 <script src="js/solo_numeros.js"></script>
-
+<script src="js/filtro.js"></script>
+<script src="js/select_opciones.js"></script>
 </html>

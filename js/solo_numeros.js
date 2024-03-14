@@ -7,3 +7,9 @@ telefonoInput.addEventListener('keypress', function(event) {
         event.preventDefault();
     }
 });
+
+telefonoInput.addEventListener("input", function() {
+    if (this.value.length > 8) {
+        this.value = this.value.slice(0, 8);
+    }
+});

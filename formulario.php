@@ -32,20 +32,37 @@ if ($response["authenticated"]) {
                 $rut = $fila["rut"];
                 $nombre = $fila["nombre"];
                 $telefono = $fila["telefono"];
-                $preventiva = $fila["preventiva"];
+                $comentario = $fila["comentario"];
+                $tipo = $fila["tipo"];
+            
+                if (!empty($fila["paquete"])) {
+                    $paquete = $fila["paquete"];
+                    $stmt = $conn->prepare("INSERT INTO solicitudes (rut, nombre_solicitante, usuario_id, fecha_ingreso, telefono, comentario, paquete_id, tipo_solicitud_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->bindParam(1, $rut, PDO::PARAM_STR);
+                    $stmt->bindParam(2, $nombre, PDO::PARAM_STR);
+                    $stmt->bindParam(3, $usuario_logeado, PDO::PARAM_STR);
+                    $stmt->bindParam(4, $fecha_actual_str, PDO::PARAM_STR);
+                    $stmt->bindParam(5, $telefono, PDO::PARAM_STR);
+                    $stmt->bindParam(6, $comentario, PDO::PARAM_STR);
+                    $stmt->bindParam(7, $paquete, PDO::PARAM_STR);
+                    $stmt->bindParam(8, $tipo, PDO::PARAM_STR);
 
-                $sql = "INSERT INTO solicitudes (rut, nombre_solicitante, usuario_id, fecha_ingreso,telefono) VALUES (?, ?, ?, ?,?)";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(1, $rut, PDO::PARAM_STR);
-                $stmt->bindParam(2, $nombre, PDO::PARAM_STR);
-                $stmt->bindParam(3, $usuario_logeado, PDO::PARAM_STR);
-                $stmt->bindParam(4, $fecha_actual_str, PDO::PARAM_STR);
-                $stmt->bindParam(5, $telefono, PDO::PARAM_STR);
-
+                } else {
+                    $stmt = $conn->prepare("INSERT INTO solicitudes (rut, nombre_solicitante, usuario_id, fecha_ingreso, telefono, comentario, tipo_solicitud_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->bindParam(1, $rut, PDO::PARAM_STR);
+                    $stmt->bindParam(2, $nombre, PDO::PARAM_STR);
+                    $stmt->bindParam(3, $usuario_logeado, PDO::PARAM_STR);
+                    $stmt->bindParam(4, $fecha_actual_str, PDO::PARAM_STR);
+                    $stmt->bindParam(5, $telefono, PDO::PARAM_STR);
+                    $stmt->bindParam(6, $comentario, PDO::PARAM_STR);
+                    $stmt->bindParam(7, $tipo, PDO::PARAM_STR);
+                }
+            
                 if (!$stmt->execute()) {
                     $errores[] = "Error al insertar registro: " . implode(", ", $stmt->errorInfo());
                 }
             }
+            
 
             if (!empty($errores)) {
                 throw new Exception("Hubo errores al insertar algunos registros", 500);
