@@ -31,13 +31,20 @@ document.getElementById("idForm").addEventListener("submit", function(event) {
         if (!response.ok) {
             throw new Error('Hubo un problema con la solicitud: ' + response.statusText);
         }
-        return response.json();
+        // Enviar el contenido del PDF al navegador para descargar
+        return response.blob();
     })
-    .then(data => {
-        console.log("la data",data);
-        if (data.exito) {
-            console.log(data.mensaje);
-            mostrarMensajeExito(data.mensaje);
+    .then(blob => {
+        // Crear una URL local para el blob del PDF
+        var url = window.URL.createObjectURL(blob);
+        // Crear un enlace y simular un clic para descargar el PDF
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'Solicitudes.pdf';
+        a.click();
+        // Liberar el objeto URL
+        window.URL.revokeObjectURL(url);
+        mostrarMensajeExito("Datos insertados correctamente");
             document.getElementById("rut_paciente").value = "";
             document.getElementById("nombre_paciente").value = "";
             document.getElementById("telefono_paciente").value = "";
@@ -45,19 +52,12 @@ document.getElementById("idForm").addEventListener("submit", function(event) {
             document.getElementById("tipo").value = "";
             document.getElementById("comentario").value = "";
             tabla.innerHTML = ""; 
-            
-        } else {
-            console.error('Error al insertar registro:', data.errores);
-            mostrarMensajeError('Hubo un problema al insertar registros.');
-        }
     })
     .catch((error) => {
         console.error('Error:', error);
-        mostrarMensajeError('Hubo un problema al procesar la solicitud.');
+        mostrarMensajeError(error);
     });
-    console.log("termino");
 });
-
 function mostrarMensajeExito(mensaje) {
     var alertContainer = document.getElementById("alert-container");
     var alertHTML = `
