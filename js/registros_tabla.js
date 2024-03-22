@@ -20,6 +20,8 @@ document.getElementById("agregar").addEventListener("click", function() {
         document.getElementById("paquete").value = "";
         document.getElementById("comentario").value = "";
         document.getElementById("tipo").value = "";
+        document.getElementById("paquete").closest('div').style.display = 'none';
+        resetSelect('paquete');
 
         document.getElementById("enviar").disabled = false;
         document.getElementById("borrar").disabled = false;

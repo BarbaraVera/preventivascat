@@ -52,6 +52,7 @@ document.getElementById("idForm").addEventListener("submit", function(event) {
             document.getElementById("tipo").value = "";
             document.getElementById("comentario").value = "";
             tabla.innerHTML = ""; 
+            resetSelect('paquete');
     })
     .catch((error) => {
         console.error('Error:', error);

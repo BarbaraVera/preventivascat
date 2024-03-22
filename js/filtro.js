@@ -28,7 +28,7 @@ function mostrarEntradas() {
         resetSelect('paquete');
     } else {
         
-        document.getElementById("selectPaquete").style.display = 'block';
+        document.getElementById("selectPaquete").style.display = 'none';
         resetSelect('paquete');
     }
 }
