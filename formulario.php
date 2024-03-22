@@ -30,6 +30,12 @@ if ($response["authenticated"]) {
             $usuario_logeado = $response["usuario"];
             $fecha_actual = new DateTime('now', new DateTimeZone('UTC'));
             $fecha_actual_str = $fecha_actual->format('Y-m-d H:i:s');
+
+            //ultimo n de solicitucd
+            $stmt = $conn->query("SELECT MAX(n_solicitud) AS max_solicitud FROM solicitudes");
+            $max_solicitud = $stmt->fetch(PDO::FETCH_ASSOC)["max_solicitud"];
+            $num_solicitud = ($max_solicitud !== null) ? $max_solicitud + 1 : 1;
+
             $errores = [];
 
             $letras = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -42,6 +48,8 @@ if ($response["authenticated"]) {
             for ($i = 0; $i < $longitud; $i++) {
                 $cadena .= $caracteres[rand(0, strlen($caracteres) - 1)];
             }
+            
+            $cadena .= strval($num_solicitud);
 
             foreach ($datos_tabla as $fila) {
                 $rut = $fila["rut"];
@@ -50,9 +58,11 @@ if ($response["authenticated"]) {
                 $comentario = $fila["comentario"];
                 $tipo = $fila["tipo"];
 
+                $ingresado = 'true';
+
                 if (!empty($fila["paquete"])) {
                     $paquete = $fila["paquete"];
-                    $stmt = $conn->prepare("INSERT INTO solicitudes (rut, nombre_solicitante, usuario_id, fecha_ingreso, telefono, comentario, paquete_id, tipo_solicitud_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt = $conn->prepare("INSERT INTO solicitudes (rut, nombre_solicitante, usuario_id, fecha_ingreso, telefono, comentario, paquete_id, tipo_solicitud_id, n_solicitud,ingresado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
                     $stmt->bindParam(1, $rut, PDO::PARAM_STR);
                     $stmt->bindParam(2, $nombre, PDO::PARAM_STR);
                     $stmt->bindParam(3, $usuario_logeado, PDO::PARAM_STR);
@@ -61,9 +71,11 @@ if ($response["authenticated"]) {
                     $stmt->bindParam(6, $comentario, PDO::PARAM_STR);
                     $stmt->bindParam(7, $paquete, PDO::PARAM_STR);
                     $stmt->bindParam(8, $tipo, PDO::PARAM_STR);
+                    $stmt->bindParam(9, $num_solicitud, PDO::PARAM_INT);
+                    $stmt->bindParam(10, $ingresado, PDO::PARAM_STR);
 
                 } else {
-                    $stmt = $conn->prepare("INSERT INTO solicitudes (rut, nombre_solicitante, usuario_id, fecha_ingreso, telefono, comentario, tipo_solicitud_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    $stmt = $conn->prepare("INSERT INTO solicitudes (rut, nombre_solicitante, usuario_id, fecha_ingreso, telefono, comentario, tipo_solicitud_id,n_solicitud,ingresado) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)");
                     $stmt->bindParam(1, $rut, PDO::PARAM_STR);
                     $stmt->bindParam(2, $nombre, PDO::PARAM_STR);
                     $stmt->bindParam(3, $usuario_logeado, PDO::PARAM_STR);
@@ -71,6 +83,8 @@ if ($response["authenticated"]) {
                     $stmt->bindParam(5, $telefono, PDO::PARAM_STR);
                     $stmt->bindParam(6, $comentario, PDO::PARAM_STR);
                     $stmt->bindParam(7, $tipo, PDO::PARAM_STR);
+                    $stmt->bindParam(8, $num_solicitud, PDO::PARAM_INT);
+                    $stmt->bindParam(9, $ingresado, PDO::PARAM_STR);
                 }
 
                 if (!$stmt->execute()) {
@@ -82,10 +96,11 @@ if ($response["authenticated"]) {
                 throw new Exception("Hubo errores al insertar algunos registros", 500);
             }
 
-            $stmt2 = $conn->prepare("INSERT INTO qr_solicitudes (cod_encrip, valido) VALUES (?, ?)");
+            $stmt2 = $conn->prepare("INSERT INTO qr_solicitudes (cod_encrip, valido, n_solicitud) VALUES (?, ?, ?)");
             $stmt2->bindParam(1, $cadena, PDO::PARAM_STR);
             $valido = 'true'; 
             $stmt2->bindParam(2, $valido, PDO::PARAM_STR);
+            $stmt2->bindParam(3, $num_solicitud, PDO::PARAM_INT);
 
             if (!$stmt2->execute()) {
                 $errores[] = "Error al insertar registro en qr_solicitudes: " . implode(", ", $stmt2->errorInfo());
@@ -94,7 +109,10 @@ if ($response["authenticated"]) {
             $dompdf = new Dompdf();
 
             $template_html = file_get_contents(__DIR__ . '/pdf.html');
-            $template_html = str_replace('{titulo}', 'Solicitudes ingresadas', $template_html);
+            $template_html = str_replace('{titulo}', 'Solicitud ingresada', $template_html);
+
+            $num_solicitud_str = strval($num_solicitud);
+            $template_html = str_replace('{num_solicitud}', $num_solicitud_str, $template_html);
 
             $ruta_logo = 'img/Home.png';
             $logo_base64 = 'data:image/png;base64,' . base64_encode(file_get_contents($ruta_logo));

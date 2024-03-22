@@ -12,13 +12,14 @@ if (isset($_SESSION['usuario'])) {
     $response["usuario"] = $_SESSION['usuario'];
 
     include_once "conexion.php"; 
-    $query = "SELECT nombre FROM usuario WHERE usuario = :usuario";
+    $query = "SELECT nombre, mutual FROM usuario WHERE usuario = :usuario";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':usuario', $_SESSION['usuario'], PDO::PARAM_STR);
     $stmt->execute();
 
     if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $response["nombre"] = $row["nombre"];
+        $response["mutual"] = $row["mutual"];
     }
 }
 

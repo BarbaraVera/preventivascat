@@ -7,13 +7,20 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((data) => {
             if (data.authenticated) {
                 nombreUsuarioSpan.textContent = data.nombre;
-            } else {
-                window.location.href = "login.html";
-            }
+                
+                if (data.mutual) {
+                    document.getElementById("solicitudButton").onclick = function() {
+                        window.location.href = "formulario_mutual.html";
+                    };
+                } else {
+                    document.getElementById("solicitudButton").onclick = function() {
+                        window.location.href = "formulario.html";
+                    };
+                }
+                
+            } 
         })
         .catch((error) => {
             console.error(error);
         });
-
-
 });

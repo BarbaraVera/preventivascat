@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((data) => {
             if (data.authenticated) {
                 
-                if (data.mutual) {
-                    window.location.href = "formulario_mutual.html";
+                if (!data.mutual) {
+                    window.location.href = "formulario.html";
                 }
             } else {
                 
