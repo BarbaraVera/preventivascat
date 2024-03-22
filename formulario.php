@@ -59,10 +59,11 @@ if ($response["authenticated"]) {
                 $tipo = $fila["tipo"];
 
                 $ingresado = 'true';
+                $valido = 'true';
 
                 if (!empty($fila["paquete"])) {
                     $paquete = $fila["paquete"];
-                    $stmt = $conn->prepare("INSERT INTO solicitudes (rut, nombre_solicitante, usuario_id, fecha_ingreso, telefono, comentario, paquete_id, tipo_solicitud_id, n_solicitud,ingresado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
+                    $stmt = $conn->prepare("INSERT INTO solicitudes (rut, nombre_solicitante, usuario_id, fecha_ingreso, telefono, comentario, paquete_id, tipo_solicitud_id, n_solicitud,ingresado,valido) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)");
                     $stmt->bindParam(1, $rut, PDO::PARAM_STR);
                     $stmt->bindParam(2, $nombre, PDO::PARAM_STR);
                     $stmt->bindParam(3, $usuario_logeado, PDO::PARAM_STR);
@@ -73,9 +74,10 @@ if ($response["authenticated"]) {
                     $stmt->bindParam(8, $tipo, PDO::PARAM_STR);
                     $stmt->bindParam(9, $num_solicitud, PDO::PARAM_INT);
                     $stmt->bindParam(10, $ingresado, PDO::PARAM_STR);
+                    $stmt->bindParam(11, $valido, PDO::PARAM_STR);
 
                 } else {
-                    $stmt = $conn->prepare("INSERT INTO solicitudes (rut, nombre_solicitante, usuario_id, fecha_ingreso, telefono, comentario, tipo_solicitud_id,n_solicitud,ingresado) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)");
+                    $stmt = $conn->prepare("INSERT INTO solicitudes (rut, nombre_solicitante, usuario_id, fecha_ingreso, telefono, comentario, tipo_solicitud_id,n_solicitud,ingresado,valido) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)");
                     $stmt->bindParam(1, $rut, PDO::PARAM_STR);
                     $stmt->bindParam(2, $nombre, PDO::PARAM_STR);
                     $stmt->bindParam(3, $usuario_logeado, PDO::PARAM_STR);
@@ -85,6 +87,7 @@ if ($response["authenticated"]) {
                     $stmt->bindParam(7, $tipo, PDO::PARAM_STR);
                     $stmt->bindParam(8, $num_solicitud, PDO::PARAM_INT);
                     $stmt->bindParam(9, $ingresado, PDO::PARAM_STR);
+                    $stmt->bindParam(10, $valido, PDO::PARAM_STR);
                 }
 
                 if (!$stmt->execute()) {
@@ -97,8 +100,7 @@ if ($response["authenticated"]) {
             }
 
             $stmt2 = $conn->prepare("INSERT INTO qr_solicitudes (cod_encrip, valido, n_solicitud) VALUES (?, ?, ?)");
-            $stmt2->bindParam(1, $cadena, PDO::PARAM_STR);
-            $valido = 'true'; 
+            $stmt2->bindParam(1, $cadena, PDO::PARAM_STR); 
             $stmt2->bindParam(2, $valido, PDO::PARAM_STR);
             $stmt2->bindParam(3, $num_solicitud, PDO::PARAM_INT);
 
