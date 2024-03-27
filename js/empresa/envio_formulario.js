@@ -14,7 +14,8 @@ document.getElementById("idForm").addEventListener("submit", function(event) {
         filaDatos.telefono = celdas[2].textContent;
         filaDatos.tipo = celdas[3].textContent;
         filaDatos.paquete = celdas[4].textContent;
-        filaDatos.comentario = celdas[5].textContent;
+        filaDatos.examen = celdas[5].textContent;
+        filaDatos.comentario = celdas[6].textContent;
 
         datos.push(filaDatos);
     }

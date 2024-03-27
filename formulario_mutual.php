@@ -57,20 +57,31 @@ if ($response["authenticated"]) {
                 $nombre = $fila["nombre"];
                 $telefono = $fila["telefono"];
                 $comentario = $fila["comentario"];
-                $tipo = $fila["tipo"];
+                $tipo = $fila["derivacion"];
+                $edad = $fila["edad"];
+                $direccion = $fila["direccion"];
+                $formulario = $fila["formulario"];
                 $examen = $fila["examen"];
+                $genero = $fila["genero"];
 
-                $ingresado = 'true';
-                $valido = 'true';
-
-                if(empty($paquete)){
-                    $paquete = null;
-                }
                 if(empty($examen)){
                     $examen = null;
                 }
 
-                $stmt = $conn->prepare("INSERT INTO solicitudes (rut, nombre_solicitante, usuario_id, fecha_ingreso, telefono, comentario, paquete_id, tipo_solicitud_id, n_solicitud,ingresado,valido,tipo_examen_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)");
+                if(empty($paquete)){
+                    $paquete = null;
+                }
+
+                if(empty($formulario)){
+                    $formulario = null;
+                }
+
+                $ingresado = 'true';
+                $valido = 'true';
+
+
+                $stmt = $conn->prepare("INSERT INTO solicitudes (rut, nombre_solicitante, usuario_id, fecha_ingreso, telefono, comentario, paquete_id,
+                tipo_solicitud_id, n_solicitud,ingresado,valido,direccion,edad,tipo_examen_id,tipo_formulario,tipo_genero_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?)");
                 $stmt->bindParam(1, $rut, PDO::PARAM_STR);
                 $stmt->bindParam(2, $nombre, PDO::PARAM_STR);
                 $stmt->bindParam(3, $usuario_logeado, PDO::PARAM_STR);
@@ -82,8 +93,12 @@ if ($response["authenticated"]) {
                 $stmt->bindParam(9, $num_solicitud, PDO::PARAM_INT);
                 $stmt->bindParam(10, $ingresado, PDO::PARAM_STR);
                 $stmt->bindParam(11, $valido, PDO::PARAM_STR);
-                $stmt->bindParam(12, $examen, PDO::PARAM_STR);
-                
+                $stmt->bindParam(12, $direccion, PDO::PARAM_STR);
+                $stmt->bindParam(13, $edad, PDO::PARAM_INT);
+                $stmt->bindParam(14, $examen, PDO::PARAM_STR);
+                $stmt->bindParam(15, $formulario, PDO::PARAM_STR);
+                $stmt->bindParam(16, $genero, PDO::PARAM_STR);
+
                 if (!$stmt->execute()) {
                     $errores[] = "Error al insertar registro: " . implode(", ", $stmt->errorInfo());
                 }
@@ -99,6 +114,7 @@ if ($response["authenticated"]) {
             $stmt2->bindParam(3, $num_solicitud, PDO::PARAM_INT);
 
             if (!$stmt2->execute()) {
+                $conn = null;
                 $errores[] = "Error al insertar registro en qr_solicitudes: " . implode(", ", $stmt2->errorInfo());
             }
 
@@ -155,10 +171,12 @@ if ($response["authenticated"]) {
         }
     } else {
         http_response_code(405); 
+        $conn = null;
         echo json_encode(array("exito" => false, "mensaje" => "Acceso no permitido"));
     }
 } else {
     http_response_code(401); 
+    $conn = null;
     echo json_encode(array("exito" => false, "mensaje" => "Acceso no permitido"));
 }
 ?>

@@ -1,15 +1,20 @@
-
-const telefonoInput = document.getElementById('telefono_paciente');
-
-telefonoInput.addEventListener('keypress', function(event) {
+function soloNumeros(event){
     const keyCode = event.keyCode;
     if (keyCode < 48 || keyCode > 57) {
         event.preventDefault();
     }
-});
+}
 
-telefonoInput.addEventListener("input", function() {
-    if (this.value.length > 8) {
-        this.value = this.value.slice(0, 8);
+function maximoNumeros(valor,maxLength) {
+    if (valor.value.length > maxLength) {
+        valor.value = valor.value.slice(0, maxLength);
     }
-});
+}
+
+let maxCaracteres = 160;
+let caracteresRestantesElement = document.getElementById('caracteres_restantes');
+function actualizarCaracteresRestantes(textareaMensaje) {
+    var cantidadCaracteres = textareaMensaje.value.length;
+    var caracteresRestantes = maxCaracteres - cantidadCaracteres;
+    caracteresRestantesElement.textContent = caracteresRestantes;
+}

@@ -6,11 +6,12 @@ document.getElementById("agregar").addEventListener("click", function() {
     var paquete = document.getElementById("paquete").value;
     var comentario = document.getElementById("comentario").value;
     var tipo = document.getElementById("tipo").value;
+    var tipo_examen = document.getElementById("tipo_examen").value;
 
     
     if (rut && nombre && telefono && comentario && tipo) {
         
-        var fila = "<tr><td>" + rut + "</td><td>" + nombre + "</td><td>" + telefono + "</td><td>" + tipo + "</td><td>" + paquete + "</td><td>" + comentario + "</td></tr>";
+        var fila = "<tr><td>" + rut + "</td><td>" + nombre + "</td><td>" + telefono + "</td><td>" + tipo + "</td><td>" + paquete + "</td><td>" + tipo_examen + "</td><td>" + comentario + "</td></tr>";
 
         document.getElementById("tablaBody").innerHTML += fila;
 
@@ -20,8 +21,15 @@ document.getElementById("agregar").addEventListener("click", function() {
         document.getElementById("paquete").value = "";
         document.getElementById("comentario").value = "";
         document.getElementById("tipo").value = "";
-        document.getElementById("paquete").closest('div').style.display = 'none';
+        document.getElementById("tipo_examen").value = "";
+        document.getElementById("selectPaquete").style.display = 'none';
         resetSelect('paquete');
+        resetSelect('tipo_examen');
+        document.getElementById("div_examen").style.display = 'none';
+        document.getElementById("verDetalles").style.display = 'none';
+        document.getElementById("botonPaquete").style.display = 'none';
+
+        document.getElementById('caracteres_restantes').textContent = 160;
 
         document.getElementById("enviar").disabled = false;
         document.getElementById("borrar").disabled = false;

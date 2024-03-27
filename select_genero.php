@@ -9,13 +9,13 @@ if (!isset($_SESSION["usuario"])) {
 }
 
 try {
-    $sql ="SELECT cod_paquete, nombre_paquete FROM paquete";
+    $sql = "SELECT cod_genero, descripcion FROM tipo_genero";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $opciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($opciones as &$opcion) {
-        $opcion['nombre_paquete'] = htmlspecialchars($opcion['nombre_paquete']);
+        $opcion['descripcion'] = htmlspecialchars($opcion['descripcion']);
     }
     $conn = null;
     echo json_encode($opciones);
